@@ -11,10 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
-@Mixin(WorldRenderer.class)
+@Mixin(value = WorldRenderer.class, priority = 500)
 public class WorldRendererMixin {
 
-    @Inject(method = "renderEntity", at = @At("HEAD"))
+    @Inject(
+        method = "renderEntity",
+        at = @At("HEAD"),
+        require = 0
+    )
     private void beforeRenderEntity(Entity entity,
                                     double cameraX, double cameraY, double cameraZ,
                                     float tickProgress,
@@ -24,23 +28,17 @@ public class WorldRendererMixin {
         ParticleContext.setEntity(entity);
     }
 
-    @Inject(method = "renderEntity", at = @At("RETURN"))
+    @Inject(
+        method = "renderEntity",
+        at = @At("RETURN"),
+        require = 0
+    )
     private void afterRenderEntity(Entity entity,
                                    double cameraX, double cameraY, double cameraZ,
                                    float tickProgress,
                                    net.minecraft.client.util.math.MatrixStack matrices,
                                    net.minecraft.client.render.VertexConsumerProvider vertexConsumers,
                                    CallbackInfo ci) {
-        ParticleContext.clear();
-    }
-
-    @Inject(method = "tickEntity(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"))
-    private void beforeTickEntity(Entity entity, CallbackInfo ci) {
-        ParticleContext.setEntity(entity);
-    }
-
-    @Inject(method = "tickEntity(Lnet/minecraft/entity/Entity;)V", at = @At("RETURN"))
-    private void afterTickEntity(Entity entity, CallbackInfo ci) {
         ParticleContext.clear();
     }
 }
