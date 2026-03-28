@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "particlecontrol",
+  "version": "${version}",
+  "name": "Particle Control",
+  "description": "Control particle visibility: hide your own particles, keep enemy particles, and adjust particle count.",
+  "authors": ["YourName"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.particlecontrol.client.ParticleControlClient"
+    ],
+    "modmenu": [
+      "com.particlecontrol.client.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "particlecontrol.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.4",
+    "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
